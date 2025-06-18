@@ -71,7 +71,6 @@ void degen(Graph *graph, long double gamma, int &LB, int UB, vector<ui> &result,
     int n = graph->n;
     ept *pstart = graph->pstart;
     ui *edges = graph->edges;
-    ui threshold = 0; // all vertices with degree < threshold can be pruned
     peel_sequence = new ui[n];
     ui *core = new ui[n];
     ui *degree = new ui[n];
@@ -125,13 +124,6 @@ void degen(Graph *graph, long double gamma, int &LB, int UB, vector<ui> &result,
 #include <vector>
 #include <cstring>
 #include <algorithm>
-
-// 假设 Graph 定义如下：
-// struct Graph {
-//     ept* pstart; // 大小 n+1
-//     ui*  edges;  // 大小 pstart[n]
-//     int  n;      // 节点数
-// };
 
 void greedyColoring(Graph *graph, const ui *peel_sequence, int *&color_cnt, int &max_color)
 {
@@ -575,7 +567,6 @@ int main(int argc, char *argv[])
     double before_local_search = clock();
     extend(alpha, k_cur, result, to_static_mapping, out_mapping, n, do_first_heuris_n);
     cout << "Local Search Time: " << (double)(clock() - before_local_search) / CLOCKS_PER_SEC << "s" << endl;
-    // // need debug when ./kDC ~/Program/DATA/realworld_graphs/tec/tech-as-caida2007.bin 0.92 it gets a right answer.
 #endif
     cout << "Start Binary With LB:" << result.size() << endl;
     print_result(result);
