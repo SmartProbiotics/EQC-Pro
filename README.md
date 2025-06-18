@@ -1,6 +1,6 @@
-# Maximum Defective Clique Computation
+# Maximum Edge-Based Quasi-Clique Computation
 
-This project implements several algorithms for exact maximum k-defective clique computation
+This project implements maximum edge-based quasi-clique algorithm——`EQC-Pro`
 
 ## Compilation
 
@@ -17,7 +17,6 @@ To run the program, use the following command:
 $ ./EQC {path_to_graph} {gamma}
 ```
 
-An example of computing the maximum 3-defective clique for the dataset CA-GrQc is as follows
 ```sh
 $ ./EQC ./data/bin/soc-delicious.bin 0.95
 ```

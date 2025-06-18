@@ -2,52 +2,62 @@
 #include <bits/stdc++.h>
 using namespace std;
 // #define Log
-class LinearSet {
+class LinearSet
+{
 private:
-    ui* data;
+    ui *data;
     ui id;
-    ui* pos;
+    ui *pos;
 
 public:
-    LinearSet(ui len, ui max_value) {
+    LinearSet(ui len, ui max_value)
+    {
         data = new ui[len];
         pos = new ui[max_value + 1];
         memset(pos, -1, sizeof(ui) * (max_value + 1));
         id = 0;
     }
-    bool count(ui v){return pos[v]!=-1;}
-    ~LinearSet() {
+    bool count(ui v) { return pos[v] != -1; }
+    ~LinearSet()
+    {
         delete[] data;
         delete[] pos;
     }
-    void clear(){
-        for(int i=0;i<id;i++)
-            pos[data[i]]=-1;
-        id=0;
+    void clear()
+    {
+        for (int i = 0; i < id; i++)
+            pos[data[i]] = -1;
+        id = 0;
     }
 
-    void insert(ui v) {
+    void insert(ui v)
+    {
         data[id] = v;
         pos[v] = id++;
     }
 
-    void erase(ui v) {
-        if(pos[v] == -1) return;
+    void erase(ui v)
+    {
+        if (pos[v] == -1)
+            return;
         ui u = data[--id];
         pos[u] = pos[v];
         data[pos[u]] = u;
-        pos[v]=-1;
+        pos[v] = -1;
     }
 
-    bool empty() const {
+    bool empty() const
+    {
         return id == 0;
     }
 
-    ui* begin() {
+    ui *begin()
+    {
         return data;
     }
 
-    ui* end() {
+    ui *end()
+    {
         return data + id;
     }
 };
@@ -79,10 +89,7 @@ public:
 
     void extract_once_v2()
     {
-        // for (int i = 0; i < min((ui)best_res.size() * (ui)best_res.size(), n); i++)
-        // {
-        // cout<<"++++++++++++++++"<<endl;
-        while(miss_edge <= k)
+        while (miss_edge <= k)
         {
             if (idS > (int)best_res.size())
             {
@@ -95,7 +102,7 @@ public:
                     k = r;
                 else
                     k = l;
-                sol_density =(double)((idS-1)*idS/2-miss_edge)/((idS-1)*idS/2);
+                sol_density = (double)((idS - 1) * idS / 2 - miss_edge) / ((idS - 1) * idS / 2);
                 cout << "Better Solution:" << best_res.size() << " Missing Edges:" << miss_edge << " Next Allow K:" << k << endl;
             }
             getBestV();
@@ -110,10 +117,7 @@ public:
             getWorstV();
             moveToSet(worstV, C, idC);
             updateScore();
-            // cout<<"Current Size:"<< idS<<" miss_edges:"<<miss_edge<<endl;
         }
-        //     else break;
-        // }
     }
 
     ~HeuExtractor()
@@ -136,7 +140,7 @@ private:
     LinearSet *neig = nullptr;
     int idS = 0, idC = 0, idmC = 0, miss_edge = 0;
     ui timeStamp = 0, worstV = 0, bestV = 0, max_deg = 0;
-    
+
     void updateScore()
     {
         for (int i = 0; i < idC; i++)
@@ -256,7 +260,7 @@ private:
             {
                 ui v = edges[i];
                 degInS[v]--;
-                if(!degInS[v]&&neig->count(v))
+                if (!degInS[v] && neig->count(v))
                     neig->erase(v);
             }
             miss_edge -= idS - degInS[u];
@@ -287,11 +291,13 @@ private:
         if (toS)
         {
             miss_edge += idS - degInS[u] - 1;
-            if(neig->count(u))
+            if (neig->count(u))
                 neig->erase(u);
         }
-        else{//To C
-            if(degInS[u]) neig->insert(u);
+        else
+        { // To C
+            if (degInS[u])
+                neig->insert(u);
         }
         score[u] = 0;
     }
@@ -299,22 +305,50 @@ private:
     void init(vector<ui> &initS)
     {
         miss_edge = 0;
-        if (!score) score = new long long[n](); else memset(score, 0, sizeof(long long) * n);
-        if (!degree) degree = new ui[n];
-        if (!degInS) degInS = new ui[n](); else memset(degInS, 0, sizeof(ui) * n);
-        if (!S) S = new ui[n](); else memset(S, 0, sizeof(ui) * n);
-        if (!C) C = new ui[n](); else memset(C, 0, sizeof(ui) * n);
-        if (!posS) posS = new int[n]; else memset(posS, -1, sizeof(int) * n);
-        if (!posC) posC = new int[n]; else memset(posC, -1, sizeof(int) * n);
-        if (!mC) mC = new ui[n](); else memset(mC, 0, sizeof(ui) * n);
-        if (!neig) neig = new LinearSet(n, n);
-        else neig->clear();
-        for (int i = 0; i < n; i++) degree[i] = pstart[i + 1] - pstart[i];
+        if (!score)
+            score = new long long[n]();
+        else
+            memset(score, 0, sizeof(long long) * n);
+        if (!degree)
+            degree = new ui[n];
+        if (!degInS)
+            degInS = new ui[n]();
+        else
+            memset(degInS, 0, sizeof(ui) * n);
+        if (!S)
+            S = new ui[n]();
+        else
+            memset(S, 0, sizeof(ui) * n);
+        if (!C)
+            C = new ui[n]();
+        else
+            memset(C, 0, sizeof(ui) * n);
+        if (!posS)
+            posS = new int[n];
+        else
+            memset(posS, -1, sizeof(int) * n);
+        if (!posC)
+            posC = new int[n];
+        else
+            memset(posC, -1, sizeof(int) * n);
+        if (!mC)
+            mC = new ui[n]();
+        else
+            memset(mC, 0, sizeof(ui) * n);
+        if (!neig)
+            neig = new LinearSet(n, n);
+        else
+            neig->clear();
+        for (int i = 0; i < n; i++)
+            degree[i] = pstart[i + 1] - pstart[i];
         idS = idC = 0;
         max_deg = 0;
-        for (int i = 0; i < n; i++) max_deg = max(max_deg, pstart[i + 1] - pstart[i]);
-        for (auto u : initS) moveToSet(u, S, idS);
-        for (int i = 0; i < n; i++) if (posS[i] == -1) moveToSet(i, C, idC);
+        for (int i = 0; i < n; i++)
+            max_deg = max(max_deg, pstart[i + 1] - pstart[i]);
+        for (auto u : initS)
+            moveToSet(u, S, idS);
+        for (int i = 0; i < n; i++)
+            if (posS[i] == -1)
+                moveToSet(i, C, idC);
     }
-
 };

@@ -30,7 +30,7 @@ long long searchTime = 0;
 int f(int k, int lb, int ub, vector<ui> &result)
 {
     cout << "<<==============================Exact Search==========================>>" << endl;
-    cout<<"[lb]: "<<lb<<" [k]: "<<k<<endl;
+    cout << "[lb]: " << lb << " [k]: " << k << endl;
     if (st.count(k))
         return st[k];
     Graph graph(static_g);
@@ -308,8 +308,8 @@ bool heuristic_find(int k, vector<ui> &res, ui *to_static, ui *&out_mapping)
     HeuExtractor he(tmp, tmp_res, gama);
     he.extract();
     tmp_res = he.best_res;
-    cout<<"Solution Density: "<<he.sol_density<<endl;
-    if (he.sol_density>=gama)
+    cout << "Solution Density: " << he.sol_density << endl;
+    if (he.sol_density >= gama)
     {
         cout << "<<Successful Heuristic!>>" << endl;
         // print_result(tmp_res);
@@ -332,7 +332,8 @@ bool heuristic_find(int k, vector<ui> &res, ui *to_static, ui *&out_mapping)
 
 void extend(double alpha, int k_cur, vector<ui> &result, ui *&to_static_mapping, ui *&out_mapping, int &lb, bool do_first_heuris_n = false)
 {
-    if(alpha<1e-7) return;
+    if (alpha < 1e-7)
+        return;
     cout << "Heu Division Val: " << my_floor(1 / alpha + 0.5) << endl;
     if (do_first_heuris_n)
     {
@@ -379,10 +380,6 @@ void extend(double alpha, int k_cur, vector<ui> &result, ui *&to_static_mapping,
 
 int main(int argc, char *argv[])
 {
-    // TODO: two stage search in kDC can be alternative to the current solution.
-    // TODO: super heuristic can create a new arrary to store the neighbors of the vertices in the S to improve time complexity.
-    // TODO: remove all the heuristic proccess in the kDC algorithm
-    // TODO: we have removed the binary lifting in the EBQ, but increase n by 1 in each iteration. It is not a good idea.
     bool output = false;
     bool binary_input = true;
     long long s1 = clock();
@@ -451,32 +448,39 @@ int main(int argc, char *argv[])
     // return 0;
 
     int gap = 1;
-    ub=graph->n,lb=n;
-    int base=lb;
-    while(true){
-        int s=base+gap,k=my_floor((s-1)*s/2*alpha);
-        int res=get_defect(s,k,s-1,s,result);
-        if(res<s) break;
-        extend(alpha,k,result,to_static_mapping,out_mapping,res);
-        lb=result.size();
-        gap*=2;
+    ub = graph->n, lb = n;
+    int base = lb;
+    while (true)
+    {
+        int s = base + gap, k = my_floor((s - 1) * s / 2 * alpha);
+        int res = get_defect(s, k, s - 1, s, result);
+        if (res < s)
+            break;
+        extend(alpha, k, result, to_static_mapping, out_mapping, res);
+        lb = result.size();
+        gap *= 2;
     }
-    ub=base+gap-1;
-    cout<<"lb: "<<lb<<" ub: "<<ub<<endl;
-    while(lb!=ub){
-        int s=(lb+ub+1)/2;
-        int k=my_floor((s-1)*s/2*alpha);
-        cout<<"[LB]"<<lb<<" [UB]"<<ub<<" [N]"<<s<<" [K]"<<k<<endl;
-        int res=get_defect(s,k,s-1,s,result);
-        if(res<s){
-            ub=s-1;
-        }else{
-            if(result.size()!=ub)extend(alpha,k,result,to_static_mapping,out_mapping,res);
-            lb=result.size();
+    ub = base + gap - 1;
+    cout << "lb: " << lb << " ub: " << ub << endl;
+    while (lb != ub)
+    {
+        int s = (lb + ub + 1) / 2;
+        int k = my_floor((s - 1) * s / 2 * alpha);
+        cout << "[LB]" << lb << " [UB]" << ub << " [N]" << s << " [K]" << k << endl;
+        int res = get_defect(s, k, s - 1, s, result);
+        if (res < s)
+        {
+            ub = s - 1;
+        }
+        else
+        {
+            if (result.size() != ub)
+                extend(alpha, k, result, to_static_mapping, out_mapping, res);
+            lb = result.size();
         }
     }
     print_result(result);
-    
+
     delete[] out_mapping;
     delete[] peel_sequence;
     delete[] to_static_mapping;
@@ -492,4 +496,3 @@ int main(int argc, char *argv[])
     cout << "res: " << lb << endl;
     return 0;
 }
-
