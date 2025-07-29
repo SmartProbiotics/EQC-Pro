@@ -34,7 +34,7 @@ $ ./EQC-TD {path_to_graph} {gamma}
 ```sh
 $ ./EQC-NH {path_to_graph} {gamma}
 ```
-Run EQC-two
+#### 3. Run the algorithm EQC-Pro
 ```sh
 $ ./EQC  {path_to_graph} {gamma}
 ```
