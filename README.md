@@ -48,7 +48,7 @@ binary graph:
 - then $4\times n$ Bytes: the degree $d_G(\cdot)$ of $n$ vertices
 - then: $n$ parts ($2m\times 4$ Bytes in total), each part has $d_G(u)$ integers which are the neighbors of $u$ ***in ascending order***
 
-We provide some examples of binary graph file  in [**data**](.data/bin). More details of the data format can be found in [https://github.com/SmartProbiotics/IterQC](https://github.com/SmartProbiotics/IterQC)
+We provide some examples of binary graph file  in [**data**](.data/bin).
 
 ### Transform other formats to `*.bin`
 We provide [**some C++ code**](./data/change_graph_format) to convert four different formats into binary files.\
